@@ -23,8 +23,8 @@ services:
 
   mcp:
     build:
-      context: .
-      dockerfile: docker/mcp/Dockerfile
+      context: ./mcp-servers
+      dockerfile: Dockerfile
     restart: unless-stopped
     depends_on:
       mysql:

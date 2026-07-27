@@ -6,7 +6,7 @@ GraphQL-over-MCP server already used to research this project:
 - `server.py` - the FastMCP + Strawberry GraphQL server (streamable-http
   transport)
 - `requirements.txt` - its Python dependencies, installed by
-  `../../docker/mcp/Dockerfile`
+  `../Dockerfile`
 - `../../scripts/fetch_irs_990_files.py` / `../../scripts/build_mysql.py` -
   the pipeline that populates the MySQL database it reads from
 - `../combined_server.py` - mounts this connector (alongside `grants-gov`)

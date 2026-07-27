@@ -10,7 +10,18 @@
 # single App Platform service, to avoid paying for two always-on instances.
 # They stay independent MCP servers internally - separate FastMCP instances,
 # tools, and GraphQL schemas - just mounted under /irs-990 and /grants-gov
-# on the same port. See docker/mcp/Dockerfile.
+# on the same port. See ../mcp-servers/Dockerfile.
+#
+# The Dockerfile lives under mcp-servers/, not docker/, because DigitalOcean
+# App Platform's builder uses the Dockerfile's own directory as the build
+# context (ignoring `source_dir` for that purpose) - so it can only COPY
+# files that live inside or below that directory. A Dockerfile under
+# docker/mcp/ referencing mcp-servers/irs-990/requirements.txt (a sibling
+# of docker/, not a descendant) fails to find it on DO, even though the
+# equivalent `docker build -f docker/mcp/Dockerfile .` works fine locally
+# with an explicit `context: .`. docker-compose.yml's build.context is set
+# to match (./mcp-servers) so local builds go through the same context DO
+# uses.
 #
 # One-time manual step before first deploy: create the read-only irs990_ro
 # user on that managed instance (App Platform has no equivalent of
@@ -42,7 +53,7 @@ services:
   # - both paths are routed internally by combined_server.py, so this one
   # service handles the whole domain (no path-based `routes:` needed).
   - name: mcp
-    dockerfile_path: docker/mcp/Dockerfile
+    dockerfile_path: mcp-servers/Dockerfile
     source_dir: /
     github:
       repo: clementgarnier/grant-finder

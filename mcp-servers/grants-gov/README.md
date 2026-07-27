@@ -8,7 +8,7 @@ MySQL data.
 
 - `server.py` - the FastMCP + Strawberry GraphQL server
 - `requirements.txt` - its Python dependencies, installed by
-  `../../docker/mcp/Dockerfile`
+  `../Dockerfile`
 
 ## Requirements
 
@@ -31,7 +31,7 @@ root:
 docker compose up -d
 ```
 
-This builds from `../../docker/mcp/Dockerfile` (the `mcp` service in
+This builds from `../Dockerfile` (the `mcp` service in
 `../../docker-compose.yml`, which runs both connectors alongside `mysql`)
 and exposes this connector at `http://localhost:8000/grants-gov/mcp`,
 bound to `127.0.0.1` only. `plugin/mcp.config.dev.json` points at that
