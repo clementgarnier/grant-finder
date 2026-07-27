@@ -1,0 +1,95 @@
+# DigitalOcean App Platform spec for the two MCP connectors.
+#
+# This is the production counterpart to ../docker-compose.yml (which stays
+# local-dev only). It assumes a managed MySQL instance already exists
+# somewhere (DigitalOcean Managed Database or otherwise) - this spec does not
+# provision one.
+#
+# One-time manual step before first deploy: create the read-only irs990_ro
+# user on that managed instance (App Platform has no equivalent of
+# docker-entrypoint-initdb.d, so this can't run automatically on deploy).
+# Export MYSQL_RO_USER/MYSQL_RO_PASSWORD (matching what's set below) and run:
+#   mysql -h <host> -P <port> -u <admin user> -p <<-EOSQL
+#       CREATE USER IF NOT EXISTS '$MYSQL_RO_USER'@'%' IDENTIFIED BY '$MYSQL_RO_PASSWORD';
+#       GRANT SELECT ON irs990.* TO '$MYSQL_RO_USER'@'%';
+#       FLUSH PRIVILEGES;
+#   EOSQL
+#
+# Deploy with:
+#   doctl apps create --spec deploy/app.yaml     # first time
+#   doctl apps update <app-id> --spec deploy/app.yaml   # subsequent changes
+#
+# Fill in the <...> placeholders (managed MySQL host, secrets) before
+# deploying.
+
+name: grant-finder-mcp
+region: nyc
+
+domains:
+  - domain: grant-finder.clementgarnier.com
+    type: PRIMARY
+
+services:
+  # Matches plugin/mcp.config.release.json's
+  # https://grant-finder.clementgarnier.com/irs-990/mcp
+  - name: irs-990
+    dockerfile_path: docker/irs-990/Dockerfile
+    source_dir: /
+    github:
+      repo: clementgarnier/grant-finder
+      branch: main
+      deploy_on_push: true
+    http_port: 8000
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    routes:
+      # preserve_path_prefix defaults to false, so the container still sees
+      # plain "/mcp" - matching what server.py actually serves.
+      - path: /irs-990
+    health_check:
+      port: 8000
+      # No http_path: a bare GET to /mcp returns 406, not 200, so an HTTP
+      # health check would flap. Omitting http_path falls back to a plain
+      # TCP check on the port instead.
+    envs:
+      - key: MYSQL_HOST
+        scope: RUN_TIME
+        value: "<managed-mysql-host>"
+      - key: MYSQL_PORT
+        scope: RUN_TIME
+        value: "25060"
+      - key: MYSQL_DATABASE
+        scope: RUN_TIME
+        value: "irs990"
+      - key: MYSQL_RO_USER
+        scope: RUN_TIME
+        value: "irs990_ro"
+      - key: MYSQL_RO_PASSWORD
+        scope: RUN_TIME
+        type: SECRET
+        value: "<fill in>"
+
+  # Matches plugin/mcp.config.release.json's
+  # https://grant-finder.clementgarnier.com/grants-gov/mcp
+  - name: grants-gov
+    dockerfile_path: docker/grants-gov/Dockerfile
+    source_dir: /
+    github:
+      repo: clementgarnier/grant-finder
+      branch: main
+      deploy_on_push: true
+    http_port: 8001
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    routes:
+      - path: /grants-gov
+    health_check:
+      port: 8001
+    envs:
+      - key: SIMPLER_GRANTS_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+        value: "<fill in>"
+      - key: SIMPLER_GRANTS_API_BASE_URL
+        scope: RUN_TIME
+        value: "https://api.simpler.grants.gov"

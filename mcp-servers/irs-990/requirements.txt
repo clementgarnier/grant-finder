@@ -1,0 +1,5 @@
+mcp
+pymysql
+uvicorn
+starlette
+strawberry-graphql[asgi]

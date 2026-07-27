@@ -1,0 +1,8 @@
+datasets/
+.venv/
+*.db
+*.tmp
+_tmp_batch.zip
+.git/
+__pycache__/
+*.pyc

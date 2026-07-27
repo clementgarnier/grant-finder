@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "irs990-filings-grants": {
+      "type": "http",
+      "url": "http://localhost:8000/mcp"
+    },
+    "grants-gov": {
+      "type": "http",
+      "url": "http://localhost:8001/mcp"
+    }
+  }
+}

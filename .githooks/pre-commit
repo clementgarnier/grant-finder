@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Tracked hook - enable once per clone with:
+#   git config core.hooksPath .githooks
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+
+if git diff --cached --name-only | grep -qx 'plugin/.mcp.json'; then
+  "$repo_root/scripts/check-plugin-mcp.sh"
+fi

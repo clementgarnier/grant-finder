@@ -1,0 +1,4 @@
+mcp
+strawberry-graphql[asgi]
+uvicorn
+httpx

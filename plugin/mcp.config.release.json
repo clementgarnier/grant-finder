@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "irs990-filings-grants": {
+      "type": "http",
+      "url": "https://grant-finder.clementgarnier.com/irs-990/mcp"
+    },
+    "grants-gov": {
+      "type": "http",
+      "url": "https://grant-finder.clementgarnier.com/grants-gov/mcp"
+    }
+  }
+}

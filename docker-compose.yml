@@ -1,0 +1,57 @@
+services:
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    command: ["--max_allowed_packet=268435456"]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_ADMIN_USER}
+      MYSQL_PASSWORD: ${MYSQL_ADMIN_PASSWORD}
+      MYSQL_RO_USER: ${MYSQL_RO_USER}
+      MYSQL_RO_PASSWORD: ${MYSQL_RO_PASSWORD}
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sh:/docker-entrypoint-initdb.d/init.sh:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  irs-990:
+    build:
+      context: .
+      dockerfile: docker/irs-990/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_RO_USER: ${MYSQL_RO_USER}
+      MYSQL_RO_PASSWORD: ${MYSQL_RO_PASSWORD}
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - ./mcp-servers/irs-990/server.py:/app/server.py:ro
+
+  grants-gov:
+    build:
+      context: .
+      dockerfile: docker/grants-gov/Dockerfile
+    restart: unless-stopped
+    environment:
+      SIMPLER_GRANTS_API_KEY: ${SIMPLER_GRANTS_API_KEY}
+      SIMPLER_GRANTS_API_BASE_URL: ${SIMPLER_GRANTS_API_BASE_URL:-https://api.simpler.grants.gov}
+    ports:
+      - "127.0.0.1:8001:8001"
+    volumes:
+      - ./mcp-servers/grants-gov/server.py:/app/server.py:ro
+
+volumes:
+  mysql_data:

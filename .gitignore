@@ -1,0 +1,12 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+*.db
+*.tmp
+_tmp_batch.zip
+datasets
+archive
+**.DS_Store
+.claude
+grant-finder.zip

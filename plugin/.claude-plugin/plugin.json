@@ -1,0 +1,9 @@
+{
+  "name": "grant-finder",
+  "version": "0.1.0",
+  "description": "Find grant funders and open opportunities for a nonprofit by combining IRS Form 990 filing/grant history with grants.gov's Simpler Grants API.",
+  "author": {
+    "name": "Clément Garnier"
+  },
+  "keywords": ["grants", "nonprofit", "fundraising", "irs990", "grants.gov"]
+}

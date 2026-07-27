@@ -1,0 +1,13 @@
+{
+  "name": "grant-finder-dev",
+  "owner": {
+    "name": "Clément Garnier"
+  },
+  "plugins": [
+    {
+      "name": "grant-finder",
+      "source": "../plugin",
+      "description": "Find grant funders and open opportunities for a nonprofit by combining IRS Form 990 filing/grant history with grants.gov's Simpler Grants API."
+    }
+  ]
+}
