@@ -5,6 +5,13 @@
 # somewhere (DigitalOcean Managed Database or otherwise) - this spec does not
 # provision one.
 #
+# Both connectors (irs-990, grants-gov) run in one process/container behind
+# one Starlette app (mcp-servers/combined_server.py) and are deployed as a
+# single App Platform service, to avoid paying for two always-on instances.
+# They stay independent MCP servers internally - separate FastMCP instances,
+# tools, and GraphQL schemas - just mounted under /irs-990 and /grants-gov
+# on the same port. See docker/mcp/Dockerfile.
+#
 # One-time manual step before first deploy: create the read-only irs990_ro
 # user on that managed instance (App Platform has no equivalent of
 # docker-entrypoint-initdb.d, so this can't run automatically on deploy).
@@ -31,9 +38,11 @@ domains:
 
 services:
   # Matches plugin/mcp.config.release.json's
-  # https://grant-finder.clementgarnier.com/irs-990/mcp
-  - name: irs-990
-    dockerfile_path: docker/irs-990/Dockerfile
+  # https://grant-finder.clementgarnier.com/irs-990/mcp and /grants-gov/mcp
+  # - both paths are routed internally by combined_server.py, so this one
+  # service handles the whole domain (no path-based `routes:` needed).
+  - name: mcp
+    dockerfile_path: docker/mcp/Dockerfile
     source_dir: /
     github:
       repo: clementgarnier/grant-finder
@@ -42,15 +51,11 @@ services:
     http_port: 8000
     instance_count: 1
     instance_size_slug: basic-xxs
-    routes:
-      # preserve_path_prefix defaults to false, so the container still sees
-      # plain "/mcp" - matching what server.py actually serves.
-      - path: /irs-990
     health_check:
       port: 8000
-      # No http_path: a bare GET to /mcp returns 406, not 200, so an HTTP
-      # health check would flap. Omitting http_path falls back to a plain
-      # TCP check on the port instead.
+      # No http_path: a bare GET to / (or /mcp) doesn't return 200, so an
+      # HTTP health check would flap. Omitting http_path falls back to a
+      # plain TCP check on the port instead.
     envs:
       - key: MYSQL_HOST
         scope: RUN_TIME
@@ -68,24 +73,6 @@ services:
         scope: RUN_TIME
         type: SECRET
         value: "<fill in>"
-
-  # Matches plugin/mcp.config.release.json's
-  # https://grant-finder.clementgarnier.com/grants-gov/mcp
-  - name: grants-gov
-    dockerfile_path: docker/grants-gov/Dockerfile
-    source_dir: /
-    github:
-      repo: clementgarnier/grant-finder
-      branch: main
-      deploy_on_push: true
-    http_port: 8001
-    instance_count: 1
-    instance_size_slug: basic-xxs
-    routes:
-      - path: /grants-gov
-    health_check:
-      port: 8001
-    envs:
       - key: SIMPLER_GRANTS_API_KEY
         scope: RUN_TIME
         type: SECRET

@@ -2,11 +2,11 @@
   "mcpServers": {
     "irs990-filings-grants": {
       "type": "http",
-      "url": "http://localhost:8000/mcp"
+      "url": "http://localhost:8000/irs-990/mcp"
     },
     "grants-gov": {
       "type": "http",
-      "url": "http://localhost:8001/mcp"
+      "url": "http://localhost:8000/grants-gov/mcp"
     }
   }
 }

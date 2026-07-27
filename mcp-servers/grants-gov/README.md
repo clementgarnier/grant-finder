@@ -8,7 +8,7 @@ MySQL data.
 
 - `server.py` - the FastMCP + Strawberry GraphQL server
 - `requirements.txt` - its Python dependencies, installed by
-  `../../docker/grants-gov/Dockerfile`
+  `../../docker/mcp/Dockerfile`
 
 ## Requirements
 
@@ -31,24 +31,27 @@ root:
 docker compose up -d
 ```
 
-This builds from `../../docker/grants-gov/Dockerfile` (alongside the
-`mysql` and `irs-990` services defined in `../../docker-compose.yml`) and
-exposes the connector at `http://localhost:8001/mcp`, bound to
-`127.0.0.1` only. `plugin/mcp.config.dev.json` points at that address.
+This builds from `../../docker/mcp/Dockerfile` (the `mcp` service in
+`../../docker-compose.yml`, which runs both connectors alongside `mysql`)
+and exposes this connector at `http://localhost:8000/grants-gov/mcp`,
+bound to `127.0.0.1` only. `plugin/mcp.config.dev.json` points at that
+address. See `../combined_server.py` for how the two connectors are
+mounted together.
 
-To run just this connector without Docker:
+To run just this connector standalone without Docker (e.g. for quick
+iteration on this server alone):
 
 ```bash
 pip install -r mcp-servers/grants-gov/requirements.txt
 export SIMPLER_GRANTS_API_KEY=...   # or set it in the repo-root .env
-python3 mcp-servers/grants-gov/server.py
+python3 mcp-servers/grants-gov/server.py   # serves on :8001/mcp by itself
 ```
 
 ## Running it for the released plugin
 
-`../../deploy/app.yaml` deploys this connector (alongside `irs-990`) to
-DigitalOcean App Platform, with `SIMPLER_GRANTS_API_KEY` set as a secret
-there - behind the hostname already set in
-`plugin/mcp.config.release.json`. After deploying, regenerate
-`plugin/.mcp.json` with `scripts/generate-plugin.sh release` before
-publishing.
+`../../deploy/app.yaml` deploys this connector (alongside `irs-990`, as one
+App Platform service to avoid paying for two always-on instances) to
+DigitalOcean, with `SIMPLER_GRANTS_API_KEY` set as a secret there - behind
+the hostname already set in `plugin/mcp.config.release.json`. After
+deploying, regenerate `plugin/.mcp.json` with
+`scripts/generate-plugin.sh release` before publishing.

@@ -29,10 +29,13 @@ report.
 - **`scripts/`** - `fetch_irs_990_files.py` and `build_mysql.py`, the
   pipeline that populates the IRS 990 MySQL database, plus
   `generate-plugin.sh` for stamping `plugin/.mcp.json`.
-- **`docker/`** and **`docker-compose.yml`** - local dev containers for
-  both connectors plus MySQL.
-- **`deploy/app.yaml`** - DigitalOcean App Platform spec for deploying
-  both connectors as hosted services.
+- **`docker/`** and **`docker-compose.yml`** - local dev containers: one
+  `mcp` container running both connectors (see
+  [`mcp-servers/combined_server.py`](mcp-servers/combined_server.py)) plus
+  MySQL.
+- **`deploy/app.yaml`** - DigitalOcean App Platform spec for deploying both
+  connectors as a single hosted service, to avoid paying for two always-on
+  instances.
 
 ## Quickstart
 

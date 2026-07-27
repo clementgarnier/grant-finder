@@ -21,10 +21,10 @@ services:
       timeout: 5s
       retries: 30
 
-  irs-990:
+  mcp:
     build:
       context: .
-      dockerfile: docker/irs-990/Dockerfile
+      dockerfile: docker/mcp/Dockerfile
     restart: unless-stopped
     depends_on:
       mysql:
@@ -35,23 +35,12 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_RO_USER: ${MYSQL_RO_USER}
       MYSQL_RO_PASSWORD: ${MYSQL_RO_PASSWORD}
-    ports:
-      - "127.0.0.1:8000:8000"
-    volumes:
-      - ./mcp-servers/irs-990/server.py:/app/server.py:ro
-
-  grants-gov:
-    build:
-      context: .
-      dockerfile: docker/grants-gov/Dockerfile
-    restart: unless-stopped
-    environment:
       SIMPLER_GRANTS_API_KEY: ${SIMPLER_GRANTS_API_KEY}
       SIMPLER_GRANTS_API_BASE_URL: ${SIMPLER_GRANTS_API_BASE_URL:-https://api.simpler.grants.gov}
     ports:
-      - "127.0.0.1:8001:8001"
+      - "127.0.0.1:8000:8000"
     volumes:
-      - ./mcp-servers/grants-gov/server.py:/app/server.py:ro
+      - ./mcp-servers:/app/mcp-servers:ro
 
 volumes:
   mysql_data:
