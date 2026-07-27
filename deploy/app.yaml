@@ -68,6 +68,13 @@ services:
       # HTTP health check would flap. Omitting http_path falls back to a
       # plain TCP check on the port instead.
     envs:
+      - key: ENVIRONMENT
+        scope: RUN_TIME
+        value: "production"
+      - key: X_ORIGIN_VERIFY_SECRET
+        scope: RUN_TIME
+        type: SECRET
+        value: "<fill in>"
       - key: MYSQL_HOST
         scope: RUN_TIME
         value: "<managed-mysql-host>"

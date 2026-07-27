@@ -22,10 +22,39 @@ from pathlib import Path
 from types import ModuleType
 
 from starlette.applications import Starlette
+from starlette.datastructures import Headers
+from starlette.middleware import Middleware
+from starlette.responses import PlainTextResponse
 from starlette.routing import Mount
 from strawberry.asgi import GraphQL
 
 ROOT = Path(__file__).resolve().parent
+
+
+class OriginVerifyMiddleware:
+    """Rejects requests missing the `x-origin-verify` header, production only.
+
+    Guards against the service being hit directly (bypassing whatever fronts
+    it, e.g. a CDN/proxy that's supposed to inject this header) once it's on
+    the public internet. Skipped locally (docker-compose doesn't set
+    ENVIRONMENT) so `docker compose up` and direct `python server.py` runs
+    don't need the secret configured.
+    """
+
+    def __init__(self, app):
+        self.app = app
+        self.enabled = os.environ.get("ENVIRONMENT") == "production"
+        if self.enabled:
+            self.secret = os.environ["X_ORIGIN_VERIFY_SECRET"]
+
+    async def __call__(self, scope, receive, send):
+        if self.enabled and scope["type"] == "http":
+            headers = Headers(scope=scope)
+            if headers.get("x-origin-verify") != self.secret:
+                response = PlainTextResponse("Forbidden", status_code=403)
+                await response(scope, receive, send)
+                return
+        await self.app(scope, receive, send)
 
 
 def _load_module(name: str, path: Path) -> ModuleType:
@@ -69,6 +98,7 @@ app = Starlette(
         Mount("/grants-gov", app=grants_gov_app),
     ],
     lifespan=lifespan,
+    middleware=[Middleware(OriginVerifyMiddleware)],
 )
 
 
