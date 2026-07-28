@@ -21,6 +21,7 @@ from contextlib import AsyncExitStack, asynccontextmanager
 from pathlib import Path
 from types import ModuleType
 
+from mcp.server.transport_security import TransportSecuritySettings
 from starlette.applications import Starlette
 from starlette.datastructures import Headers
 from starlette.middleware import Middleware
@@ -29,6 +30,9 @@ from starlette.routing import Mount
 from strawberry.asgi import GraphQL
 
 ROOT = Path(__file__).resolve().parent
+
+# Matches deploy/app.yaml's `domains:` entry and plugin/mcp.config.release.json.
+PRODUCTION_HOST = "grant-finder.clementgarnier.com"
 
 
 class OriginVerifyMiddleware:
@@ -67,6 +71,18 @@ def _load_module(name: str, path: Path) -> ModuleType:
 
 irs990 = _load_module("irs990_server", ROOT / "irs-990" / "server.py")
 grants_gov = _load_module("grantsgov_server", ROOT / "grants-gov" / "server.py")
+
+if os.environ.get("ENVIRONMENT") == "production":
+    # Each FastMCP() call above defaults to host="127.0.0.1", which makes the
+    # SDK's DNS-rebinding protection allow only localhost Host headers - fine
+    # for `docker compose up`, but it 421s every request once this is running
+    # behind the real domain. Widen it to the production host instead of
+    # disabling the protection outright.
+    production_transport_security = TransportSecuritySettings(
+        allowed_hosts=[PRODUCTION_HOST], allowed_origins=[f"https://{PRODUCTION_HOST}"]
+    )
+    irs990.mcp.settings.transport_security = production_transport_security
+    grants_gov.mcp.settings.transport_security = production_transport_security
 
 irs990_app = irs990.mcp.streamable_http_app()
 grants_gov_app = grants_gov.mcp.streamable_http_app()
