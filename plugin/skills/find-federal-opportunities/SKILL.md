@@ -26,9 +26,31 @@ applying to.
 3. For the most relevant matches, fetch full detail with `opportunity(id)`
    before presenting - the search result already has enough fields for a
    good summary, but confirm award floor/ceiling and close date are current.
-4. Present results as: title, agency, close date, award range, a one-line
-   fit rationale tied to the org's stated mission/keywords, and the `url`
-   as a link so the user can read the full posting and apply.
+4. Present results as a table (see "Output format" below), with a one-line
+   fit rationale per row tied to the org's stated mission/keywords.
+
+## Output format
+
+Whenever the result is two or more opportunities, lead with a markdown
+table, one row per opportunity:
+
+| Funder | Program / opportunity | Amount (or range) | Due date | More info |
+|---|---|---|---|---|
+
+- **Funder** - `agencyName` (the agency is the funder here).
+- **Program / opportunity** - the opportunity `title`.
+- **Amount (or range)** - `awardFloor`-`awardCeiling` when both are given,
+  a single figure when only one is, `Not stated` when neither is.
+- **Due date** - `closeDate`. Use `Rolling` where the posting has no close
+  date, and flag anything closing within ~2 weeks so the user sees the
+  time pressure.
+- **More info** - a markdown link on the opportunity `url`, so the user can
+  read the full posting and apply.
+
+A `Fit` column for the one-line rationale is usually worth adding; keep
+longer reasoning in prose under the table. Use `-` for genuinely unknown
+values rather than blanks or invented ones. A single opportunity doesn't
+need a table; write it up in prose with the same facts.
 
 ## Example query
 

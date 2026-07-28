@@ -5,7 +5,10 @@ description: Build a profile of one specific funder (foundation or grantmaking n
 
 # Funder due diligence
 
-Uses only the `irs990-filings-grants` connector's `graphql` tool.
+Uses the `irs990-filings-grants` connector's `graphql` tool for the profile
+itself, plus a single `WebSearch`/`WebFetch` pass over the funder's own site
+to pick up the application deadline and grants-page link that the 990 data
+doesn't carry.
 
 ## Goal
 
@@ -29,6 +32,29 @@ they've funded historically.
    recipients (`recipientState`). Flag anything that suggests they don't
    fund the requester's kind of work (e.g. exclusively funds a different
    sector or only funds outside the requester's state).
+
+## Output format
+
+The deliverable here is a profile, so most of it is prose. Still, open the
+write-up with a one-row summary table so the headline facts are scannable,
+and use one row per program if the funder runs several distinct grant
+programs:
+
+| Funder | Program / opportunity | Amount (or range) | Due date | More info |
+|---|---|---|---|---|
+
+- **Amount (or range)** - the typical grant size from step 4 (a range, not
+  the max), labelled with the tax year it came from, e.g.
+  "$10K-$75K (FY2023 filings)".
+- **Due date** and **More info** aren't in the 990 data at all. One
+  `WebSearch` for `"<funder name>" grant application guidelines` plus a
+  `WebFetch` of their grants page is usually enough to fill both. If that
+  turns up nothing, put `Not stated` in the due date, link the funder's
+  homepage marked as such, and say in the prose that no application
+  guidelines were findable - don't leave the columns off.
+- Use `Invitation only` as the due date where the funder says they don't
+  accept unsolicited requests, and `Rolling` where there's no fixed
+  deadline.
 
 ## Example query
 

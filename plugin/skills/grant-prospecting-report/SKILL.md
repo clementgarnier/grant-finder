@@ -33,19 +33,46 @@ prioritized list to work from.
    rationale and a link to the opportunity.
 3. Run the `find-federal-opportunities` steps against `grants-gov` to get
    currently-open opportunities matching the same profile.
-4. Merge into one report:
-   - **Private foundation opportunities** - funder name, EIN, program,
-     deadline, award range, fit notes (mission/eligibility/historical
-     openness to new grantees), link to the opportunity page
-   - **Public/federal opportunities** - title, agency, close date, award
-     range, one-line fit rationale
-   - Sort each section by strength of fit, not just by amount.
+4. Merge into one report - two sections, each led by its own table in the
+   shared format below, each sorted by strength of fit rather than by
+   amount:
+   - **Private foundation opportunities** - plus funder EIN and fit notes
+     (mission/eligibility/historical openness to new grantees)
+   - **Public/federal opportunities** - agency as the funder, plus a
+     one-line fit rationale
 5. `irs990-filings-grants` gives the historical signal (most recent
    processed IRS Form 990 filings) that points at *which* foundations to
    check; `WebSearch`/`WebFetch` confirm what's actually open now on each
    funder's own site. `grants-gov` is backed live by the Simpler Grants
    API. Don't present step-2's historical funder list as if it were open
    opportunities without the live website check.
+
+## Output format
+
+Both sections use the same table shape, so the two lists stay comparable at
+a glance. One row per opportunity:
+
+| Funder | Program / opportunity | Amount (or range) | Due date | More info |
+|---|---|---|---|---|
+
+- **Funder** - the foundation's name (private section) or `agencyName`
+  (public section).
+- **Amount (or range)** - the funder's own stated range, or
+  `awardFloor`-`awardCeiling` for federal postings. For a private funder
+  with no published range, fall back to the typical range from their 990
+  history and label it (e.g. "$25K-$100K (historical)").
+- **Due date** - the application/LOI deadline or `closeDate`. Use `Rolling`
+  for no fixed deadline, `Invitation only` where the funder doesn't take
+  unsolicited requests, `Not stated` when the source is silent. Never guess
+  a date or reuse a past cycle's deadline as if it were current.
+- **More info** - a markdown link to the specific grant/application page or
+  the grants.gov posting `url`. Fall back to a funder's homepage only when
+  no grants page was found, and mark it as such.
+
+Section-specific columns go on the end (EIN and fit notes for private,
+fit rationale for public) - keep the five core columns identical across
+both. Use `-` for genuinely unknown values, and keep longer per-opportunity
+reasoning in prose under each table.
 
 ## Pitfalls
 

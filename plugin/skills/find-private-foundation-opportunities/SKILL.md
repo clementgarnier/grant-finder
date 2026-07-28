@@ -114,17 +114,43 @@ For each funder/opportunity that clears step 4:
 
 ### 6. Present results
 
-One table, sorted by strength of fit (not just dollar amount):
+Lead with the summary table (see "Output format" below), sorted by strength
+of fit rather than dollar amount, then add any per-funder narrative below
+it.
 
-| Funder | Program/Opportunity | Deadline | Award range | Fit notes | Link |
-|---|---|---|---|---|---|
-
-- "Link" should point at the specific opportunity/application page, not
-  just the foundation's homepage, whenever step 4 found one.
 - Call out clearly, per row, if a funder is invitation-only, hasn't
   historically added new grantees, or has no visible open cycle - don't
   quietly drop these, since the user may still want to make a relationship
   overture even without an open RFP.
+
+## Output format
+
+Whenever the result is two or more grant opportunities, lead with a
+markdown table. One row per opportunity (not per funder - a funder running
+several programs gets several rows):
+
+| Funder | Program / opportunity | Amount (or range) | Due date | More info |
+|---|---|---|---|---|
+
+- **Funder** - the grantmaking organization's name.
+- **Amount (or range)** - the funder's own stated award range when the site
+  gives one. Otherwise fall back to the typical range from their 990 grant
+  history and label it as such (e.g. "$25K-$100K (historical)"). Never
+  present a single historical grant as if it were an advertised amount.
+- **Due date** - the application/LOI deadline. Use `Rolling` for no fixed
+  deadline, `Invitation only` where the funder doesn't accept unsolicited
+  requests, and `Not stated` when the site simply doesn't say. Don't guess
+  a date or carry forward a past cycle's deadline as if it were current.
+- **More info** - a markdown link to the funder's own grant/application
+  page. Fall back to the funder's homepage only if step 4 found no grants
+  page, and mark it (e.g. `[Homepage](...)`) so the user knows the specific
+  page wasn't found.
+
+Add columns when they earn their place - a `Fit` column for the one-line
+alignment rationale is usually worth it here; keep longer reasoning in prose
+under the table. Use `-` for anything genuinely unknown rather than leaving
+a cell blank or inventing a value. A single opportunity doesn't need a
+table; write it up in prose with the same facts.
 
 ## Pitfalls
 
