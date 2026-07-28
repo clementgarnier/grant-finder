@@ -509,7 +509,7 @@ query.""",
 )
 
 
-@mcp.tool()
+@mcp.tool(title="Search IRS 990 data")
 async def graphql(query: str, variables: Optional[dict] = None) -> dict:
     """Query the IRS Form 990 nonprofit filings & grants database via GraphQL.
 

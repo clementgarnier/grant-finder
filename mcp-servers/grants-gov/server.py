@@ -280,7 +280,7 @@ your first query.""",
 )
 
 
-@mcp.tool()
+@mcp.tool(title="Search grants.gov")
 async def graphql(query: str, variables: Optional[dict] = None) -> dict:
     """Query grant opportunities via GraphQL, backed live by api.simpler.grants.gov.
 
