@@ -182,11 +182,11 @@ each February is often the most actionable thing in the report.
 Whenever the result is two or more opportunities, lead with a markdown
 table, one row per opportunity:
 
-| Funder | Program / opportunity | Amount (or range) | Due date | More info | Level |
-|---|---|---|---|---|---|
+| Funder | Program / opportunity | Amount (or range) | Due date | More info | Level | Fit |
+|---|---|---|---|---|---|---|
 
 The five core columns are shared with the other grant skills so lists stay
-comparable; `Level` and any `Fit` column go on the end.
+comparable; `Level` and `Fit` go on the end, in that order.
 
 - **Funder** - the body that receives the application, named as it calls
   itself (e.g. `Multnomah County Health Department`, not `the county`).
@@ -206,10 +206,18 @@ comparable; `Level` and any `Fit` column go on the end.
   Fall back to the jurisdiction's grants index or procurement portal only
   when no program page exists, and mark it as such.
 
-A `Fit` column for the one-line rationale is usually worth adding; keep
-longer reasoning in prose under the table. Use `-` for genuinely unknown
-values rather than blanks or invented ones. A single opportunity doesn't
-need a table; write it up in prose with the same facts.
+- **Fit** - required, one line per row, carrying the step-5 assessment. At
+  this level the deciding factors are usually the ones the org can't work
+  around, so put them here rather than in prose: the geographic
+  restriction, a cash match, reimbursement-only payment, or effort that
+  outweighs a small award ("$5K, city limits only - the org's site is
+  unincorporated, so ineligible"). Keep longer reasoning in prose under
+  the table.
+
+Use `-` for genuinely unknown values rather than blanks or invented ones -
+but never in `Fit`, which is a judgement you can always make. A single
+opportunity doesn't need a table; write it up in prose with the same facts,
+fit rationale included.
 
 Say explicitly which jurisdictions you searched and which you skipped. A
 jurisdiction with no grant programs at all is a finding worth one line -

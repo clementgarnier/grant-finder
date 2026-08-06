@@ -52,13 +52,14 @@ so the user has a single prioritized list to work from.
 5. Merge into one report - two sections, each led by its own table in the
    shared format below, each sorted by strength of fit rather than by
    amount:
-   - **Private foundation opportunities** - plus funder EIN and fit notes
-     (mission/eligibility/historical openness to new grantees)
+   - **Private foundation opportunities** - plus funder EIN, and a `Fit`
+     entry covering mission alignment, eligibility, and historical
+     openness to new grantees
    - **Public opportunities** - direct federal postings, pass-through
      subgrant competitions, and state/local own-source programs together,
      with a `Level` column
-     (`Federal`/`State`/`County`/`City`/`Regional`/`Special district`) and a
-     one-line fit rationale. The funder is the body the org applies to: the
+     (`Federal`/`State`/`County`/`City`/`Regional`/`Special district`). The
+     funder is the body the org applies to: the
      federal `agencyName` for a direct posting, the administering state or
      local agency for a subgrant, the jurisdiction's own department for a
      state/local program.
@@ -79,8 +80,8 @@ so the user has a single prioritized list to work from.
 Both sections use the same table shape, so the two lists stay comparable at
 a glance. One row per opportunity:
 
-| Funder | Program / opportunity | Amount (or range) | Due date | More info |
-|---|---|---|---|---|
+| Funder | Program / opportunity | Amount (or range) | Due date | More info | Fit |
+|---|---|---|---|---|---|
 
 - **Funder** - the foundation's name (private section), or the body that
   receives the application in the public section: `agencyName` for a direct
@@ -104,10 +105,19 @@ a glance. One row per opportunity:
   the grants.gov posting `url`. Fall back to a funder's homepage only when
   no grants page was found, and mark it as such.
 
-Section-specific columns go on the end (EIN and fit notes for private,
-`Level` and fit rationale for public) - keep the five core columns
-identical across both. Use `-` for genuinely unknown values, and keep longer per-opportunity
-reasoning in prose under each table.
+- **Fit** - required in both sections, one line per row, and the column the
+  user actually reads the report by. It carries a different judgement in
+  each: for a private funder, mission alignment plus openness to new
+  grantees; for a public opportunity, eligibility and whether the org can
+  carry the award (match, reimbursement, subrecipient obligations). Say
+  why *this* org is or isn't a plausible applicant - never restate what the
+  program funds. Weak fits stay in the table with the weakness named.
+
+Section-specific columns go between `More info` and `Fit` (EIN for private,
+`Level` for public) - keep the five core columns identical across both, and
+`Fit` last in both. Use `-` for genuinely unknown values, though never in
+`Fit`, which is a judgement you can always make. Keep longer
+per-opportunity reasoning in prose under each table.
 
 ## Pitfalls
 

@@ -129,8 +129,8 @@ Whenever the result is two or more grant opportunities, lead with a
 markdown table. One row per opportunity (not per funder - a funder running
 several programs gets several rows):
 
-| Funder | Program / opportunity | Amount (or range) | Due date | More info |
-|---|---|---|---|---|
+| Funder | Program / opportunity | Amount (or range) | Due date | More info | Fit |
+|---|---|---|---|---|---|
 
 - **Funder** - the grantmaking organization's name.
 - **Amount (or range)** - the funder's own stated award range when the site
@@ -146,11 +146,19 @@ several programs gets several rows):
   page, and mark it (e.g. `[Homepage](...)`) so the user knows the specific
   page wasn't found.
 
-Add columns when they earn their place - a `Fit` column for the one-line
-alignment rationale is usually worth it here; keep longer reasoning in prose
-under the table. Use `-` for anything genuinely unknown rather than leaving
-a cell blank or inventing a value. A single opportunity doesn't need a
-table; write it up in prose with the same facts.
+- **Fit** - required, one line per row, carrying the step-5 assessment:
+  mission alignment, eligibility, and openness to new grantees. Where a
+  funder is invitation-only or has funded the same handful of names for
+  years, that goes here ("large giving, but no new grantees since 2019 -
+  relationship play, not an application"). Never leave it as a restatement
+  of the funder's programs. Keep longer per-funder reasoning in prose under
+  the table.
+
+Add further columns only when they earn their place. Use `-` for anything
+genuinely unknown rather than leaving a cell blank or inventing a value -
+but never in `Fit`, which is a judgement you can always make. A single
+opportunity doesn't need a table; write it up in prose with the same facts,
+fit rationale included.
 
 ## Pitfalls
 

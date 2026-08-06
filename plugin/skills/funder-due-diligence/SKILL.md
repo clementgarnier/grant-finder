@@ -40,12 +40,19 @@ write-up with a one-row summary table so the headline facts are scannable,
 and use one row per program if the funder runs several distinct grant
 programs:
 
-| Funder | Program / opportunity | Amount (or range) | Due date | More info |
-|---|---|---|---|---|
+| Funder | Program / opportunity | Amount (or range) | Due date | More info | Fit |
+|---|---|---|---|---|---|
 
 - **Amount (or range)** - the typical grant size from step 4 (a range, not
   the max), labelled with the tax year it came from, e.g.
   "$10K-$75K (FY2023 filings)".
+- **Fit** - required, and the reason anyone runs due diligence: one line on
+  whether this funder is worth the requesting org's time, drawing on the
+  step-4 summary (sector and geographic concentration of recipients,
+  typical grant size against what the org needs, whether new names appear
+  in the recipient list). If the user hasn't said which organization is
+  considering applying, ask - without it the profile can't answer the
+  question they're actually asking, and `Fit` can't be filled honestly.
 - **Due date** and **More info** aren't in the 990 data at all. One
   `WebSearch` for `"<funder name>" grant application guidelines` plus a
   `WebFetch` of their grants page is usually enough to fill both. If that

@@ -38,8 +38,9 @@ applying to.
 5. For every pass-through hit that matters, work through steps 3-5 of
    "Pass-through opportunities" to reach the actual subgrant competition,
    and report *that* as the opportunity.
-6. Present results as a table (see "Output format" below), with a one-line
-   fit rationale per row tied to the org's stated mission/keywords.
+6. Present results as a table (see "Output format" below). Every row
+   carries a one-line fit rationale in the required `Fit` column, tied to
+   the org's stated mission/keywords.
 
 ## Pass-through opportunities
 
@@ -159,8 +160,8 @@ failure.
 Whenever the result is two or more opportunities, lead with a markdown
 table, one row per opportunity:
 
-| Funder | Program / opportunity | Amount (or range) | Due date | More info |
-|---|---|---|---|---|
+| Funder | Program / opportunity | Amount (or range) | Due date | More info | Fit |
+|---|---|---|---|---|---|
 
 - **Funder** - `agencyName` for a direct federal posting; for a pass-through
   find, the **administering state or local agency**, since that is who the
@@ -183,16 +184,23 @@ table, one row per opportunity:
   agency's own RFA/NOFA page, falling back to its grants index page marked
   as such.
 
-A `Fit` column for the one-line rationale is usually worth adding; keep
-longer reasoning in prose under the table. Use `-` for genuinely unknown
-values rather than blanks or invented ones. A single opportunity doesn't
-need a table; write it up in prose with the same facts.
+- **Fit** - required, one line per row, tying this opportunity to the org's
+  own mission, keywords, or eligibility. Not a restatement of what the
+  program funds: say why *this* org is or isn't a plausible applicant.
+  Where the fit is weak, say that in the cell ("only if the org runs a
+  workforce program - it doesn't today") rather than dropping the row or
+  writing something bland. Keep longer reasoning in prose under the table.
+
+Use `-` for genuinely unknown values rather than blanks or invented ones -
+but never in `Fit`, which is a judgement you can always make. A single
+opportunity doesn't need a table; write it up in prose with the same facts,
+fit rationale included.
 
 Where a search returned both kinds, keep directly-applicable federal
 postings and pass-through subgrant competitions in one table but add a
-`Level` column (`Federal` / `State` / `Local`) - they compete for the same
-grant-writing hours and belong on one list, but the org needs to see at a
-glance which door it is knocking on.
+`Level` column (`Federal` / `State` / `Local`), between `More info` and
+`Fit` - they compete for the same grant-writing hours and belong on one
+list, but the org needs to see at a glance which door it is knocking on.
 
 ## Example queries
 
