@@ -7,9 +7,10 @@ Claude can find funders and open opportunities for a nonprofit.
 Given an organization's mission, sector, and location, Grant Finder can
 identify private foundations that have historically funded similar
 organizations, check those funders' current application windows, surface
-open federal/public grant opportunities, and build due-diligence profiles
-on specific funders - either individually or as one combined prospecting
-report.
+open federal grant opportunities, search the organization's own state,
+county and city governments for the programs they fund themselves, and
+build due-diligence profiles on specific funders - either individually or
+as one combined prospecting report.
 
 ## Repo layout
 

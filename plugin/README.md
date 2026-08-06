@@ -19,7 +19,9 @@ at live in `../mcp-servers/`, not under the plugin itself - see "Why
   (`mcp-servers/grants-gov/server.py`). Requires a `SIMPLER_GRANTS_API_KEY` -
   see `mcp-servers/grants-gov/README.md`.
 - **Skills** - `find-private-foundation-opportunities`, `find-federal-opportunities`,
-  `funder-due-diligence`, and the combined `grant-prospecting-report`.
+  `find-state-local-opportunities` (web search only - no connector covers
+  state, county and city grant programs), `funder-due-diligence`, and the
+  combined `grant-prospecting-report`.
 
 Both connectors expose a single `graphql(query, variables)` tool each, so
 skills use one consistent querying idiom across both.
